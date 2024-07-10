@@ -66,4 +66,6 @@ gradle.properties
 /*/build/
 /*/local.properties
 /*/out
-/*/captures
+
+# Ignore target directory
+/target/
