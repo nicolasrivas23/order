@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import static com.linktic.service.order.util.Constant.*;
+
 @Configuration
 public class LocalStackConfig {
     @Bean
@@ -18,9 +20,9 @@ public class LocalStackConfig {
     public AmazonDynamoDB amazonDynamoDB() {
         return AmazonDynamoDBClientBuilder.standard()
                 .withEndpointConfiguration(
-                        new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", "us-east-1"))
+                        new AwsClientBuilder.EndpointConfiguration(URL_ENDPOINT, SIGNING_REGION))
                 .withCredentials(new AWSStaticCredentialsProvider(
-                        new BasicAWSCredentials("test", "test")))
+                        new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY)))
                 .build();
     }
 
