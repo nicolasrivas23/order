@@ -1,6 +1,7 @@
 package com.linktic.service.order.entity;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 import com.linktic.service.order.entity.dto.Product;
@@ -25,5 +26,7 @@ public class Order {
     private String cliente;
     @DynamoDBTypeConverted(converter = LocalDateConverter.class)
     private LocalDate fecha;
+    private List<String> productosIds;
+    @DynamoDBIgnore
     private List<Product> productos;
 }

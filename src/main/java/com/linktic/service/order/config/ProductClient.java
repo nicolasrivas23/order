@@ -4,6 +4,8 @@ import com.linktic.service.order.entity.dto.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -15,4 +17,7 @@ public interface ProductClient {
 
     @GetMapping("/productos/{id}")
     Product obtenerProductoPorId(@PathVariable("id") String id);
+
+    @PostMapping("/productos")
+    Product guardarProducto(@RequestBody Product product);
 }

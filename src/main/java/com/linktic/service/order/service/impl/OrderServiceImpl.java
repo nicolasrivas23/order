@@ -23,9 +23,10 @@ public class OrderServiceImpl implements OrderServiceI {
         List<Order> pedidos = StreamSupport.stream(orderRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
 
-        List<Product> productos = productClient.obtenerTodosLosProductos();
-
         for (Order pedido : pedidos) {
+            List<Product> productos = pedido.getProductosIds().stream()
+                    .map(productClient::obtenerProductoPorId)
+                    .collect(Collectors.toList());
             pedido.setProductos(productos);
         }
 
@@ -34,6 +35,13 @@ public class OrderServiceImpl implements OrderServiceI {
 
     @Override
     public Order guardarPedido(Order order) {
+        List<String> productosIds = order.getProductos().stream()
+                .map(productClient::guardarProducto)
+                .map(Product::getProductId)
+                .collect(Collectors.toList());
+
+        order.setProductosIds(productosIds);
+
         return orderRepository.save(order);
     }
 }
