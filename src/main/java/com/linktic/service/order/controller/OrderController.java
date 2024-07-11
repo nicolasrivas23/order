@@ -3,6 +3,8 @@ package com.linktic.service.order.controller;
 import com.linktic.service.order.entity.Order;
 import com.linktic.service.order.service.OrderServiceI;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +17,25 @@ public class OrderController {
     private final OrderServiceI pedidoService;
 
     @GetMapping
-    public List<Order> obtenerPedidos() {
-        return pedidoService.obtenerTodosLosPedidos();
+    public ResponseEntity<List<Order>> obtenerPedidos() {
+        try {
+            List<Order> orders = pedidoService.obtenerTodosLosPedidos();
+            if (orders.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping
-    public Order guardarPedido(@RequestBody Order order) {
-        return pedidoService.guardarPedido(order);
+    public ResponseEntity<Order> guardarPedido(@RequestBody Order order) {
+        try {
+            Order savedOrder = pedidoService.guardarPedido(order);
+            return new ResponseEntity<>(savedOrder, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
