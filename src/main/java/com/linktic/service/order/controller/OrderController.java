@@ -34,6 +34,8 @@ public class OrderController {
         try {
             Order savedOrder = pedidoService.guardarPedido(order);
             return new ResponseEntity<>(savedOrder, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
